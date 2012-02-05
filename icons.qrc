@@ -1,0 +1,23 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file>lock.png</file>
+        <file>settings.png</file>
+        <file>unlockred.png</file>
+        <file>unlockgreen.png</file>
+        <file>unlockyellow.png</file>
+        <file>unlock.png</file>
+        <file>lockgreen.png</file>
+        <file>orange-folder-locked.png</file>
+        <file>exit.png</file>
+        <file>add.png</file>
+        <file>edit_remove.png</file>
+        <file>back.png</file>
+        <file>forward.png</file>
+        <file>check.png</file>
+        <file>cancel.png</file>
+        <file>k3b.png</file>
+        <file>tab_new_raised.png</file>
+        <file>editalt.png</file>
+        <file>delete.png</file>
+    </qresource>
+</RCC>
