@@ -86,7 +86,6 @@ public:
                                                  char *name_of_rule);
     int                         Get_Proc_List(QStringList * slProc,
                                                   int return_param);// 1 - PID, 2 - Name
-    int                         get_opens_port(QStringList * strlst, char * Name);
 
 private:
     Ui::MainWindow *ui;

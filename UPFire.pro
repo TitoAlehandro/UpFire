@@ -22,8 +22,7 @@ SOURCES += main.cpp\
            select_rule.cpp \
            make_rule.cpp  \
 
-HEADERS  += mainwindow.h \
-            ndisapi_qt.h \            
+HEADERS  += mainwindow.h \            
             iphlp.h \
             upfire_dll_coff.h \
             select_rule.h \
@@ -35,7 +34,6 @@ FORMS    += mainwindow.ui \
     make_rule.ui
 
 
-LIBS += -lwsock32 ./UPfireDLL_coff/UPFire_DLL_coff/libndisapi_qt.a
 LIBS += -lpthread
 LIBS += "C:\QtSDK\mingw\lib\libiphlpapi.a"
 LIBS += ".\\libUPFire_DLL_coff.a"

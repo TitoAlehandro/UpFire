@@ -543,83 +543,7 @@ char* PortStateToStr(DWORD State)
   }
 
 }
-int MainWindow::get_opens_port(QStringList * str_lst, char * Name)
-{
-  // для определения каким процессом открыт тот или иной порт
-  // получаем список процессов  
-  TMibTCPExTable *TCPExTable;
-  //ULONG Reserved = 0;
-  HANDLE hProcSnap = NULL;
-  int rez = 0;
-  DWORD id = 0;
-  id = GetCurrentProcessId();
-  hProcSnap = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, id);
-  if (hProcSnap == INVALID_HANDLE_VALUE){
-    rez = GetLastError();
-    str_lst->append("");
-    str_lst->append("CreateToolhelp32Snapshot failed");
-  }
 
-  // Выполняем вот такую вот функцию
-  // она не документтрованна, но как видно из названия - она сама выделяет необходимую для работы
-  // память и нам остается только прочитать результат по завершении ее выполнения
-  DWORD dwSize = 1000;
-  TCPExTable = (TMibTCPExTable*)malloc(sizeof(TMibTCPExTable)*dwSize);
-  memset(TCPExTable, 0, sizeof(TMibTCPExTable)*dwSize);
-  rez = GetExtendedTcpTable(TCPExTable,
-                            &dwSize,
-                             FALSE,
-                             AF_INET,
-                             TCP_TABLE_OWNER_PID_ALL,
-                             0);
-  if(rez == ERROR_INSUFFICIENT_BUFFER){
-    rez = GetExtendedTcpTable(TCPExTable,
-                              &dwSize,
-                               FALSE,
-                               AF_INET,
-                               TCP_TABLE_OWNER_PID_ALL,
-                               0);
-  }
-  char st[256]={};
-  if (rez  == NO_ERROR){
-    //QStringList * str_lst = new QStringList();
-    str_lst->append("");
-    str_lst->append("Extended TCP Stats");
-    memset(&st, 0, sizeof(st));
-    sprintf(st,"%15s: | %5s | %-12s | %20s | (%s)", "Host", "Port", "State", "Process name", "ID");
-    str_lst->append(st);
-    str_lst->append("==========================================================================");
-    // начинаем выводить информацию
-    for(int I=0;I<(int)TCPExTable->dwNumEntries - 1;I++)
-    {
-      char st[256]={};
-      struct in_addr address_struct;
-      address_struct.s_addr = TCPExTable->Table[I].dwLocalAddr;
-      sprintf(st,"%15s: | %5d | %-12s | %20s | (%d)",
-              inet_ntoa(address_struct),
-              htons(TCPExTable->Table[I].dwLocalPort),
-              PortStateToStr(TCPExTable->Table[I].dwState),
-              // Вот здесь у нас происходит сопоставление процесса открытому порту
-              ProcessPIDToName(hProcSnap,
-                                 TCPExTable->Table[I].dwProcessID),
-                                 (int)TCPExTable->Table[I].dwProcessID);
-      if(!strcmp(Name, ProcessPIDToName(hProcSnap,
-                                        TCPExTable->Table[I].dwProcessID))){
-        str_lst->append(st);
-      }
-     }      
-  }
-  else{
-    free(TCPExTable);
-    CloseHandle(hProcSnap);
-    return -1;
-  }
-  sprintf(st, "count =%ld",str_lst->count());
-  str_lst->append(st);
-  free(TCPExTable);
-  CloseHandle(hProcSnap);
-  return 0;
-}
 void MainWindow::on_btnAll_Defend_clicked()
 {
   ui->btnEnableDfnd->setChecked(false);
@@ -632,8 +556,8 @@ void MainWindow::on_btnAll_Defend_clicked()
 
   QStringList *str_list = new QStringList();
   str_list->append("3333333333333333333");
-  int rez = get_opens_port(str_list, "Skype.exe");
-  rez = 0;
+  //int rez = get_opens_port(str_list, "Skype.exe");
+  //rez = 0;
 
 }
 int MainWindow::add_item_menu(QListWidget *name_Menu, char *name_icon, char *text_item){
